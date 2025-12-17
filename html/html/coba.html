@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Dasar JavaScript</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e86de;
+        }
+
+        .box {
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            background: #eaf2ff;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #1e3799;
+        }
+
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f7f9fc;
+            border-left: 4px solid #2e86de;
+        }
+
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+
+    <script>
+        window.alert("SELAMAT PAGI DUNIA");
+    </script>
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>Belajar Dasar JavaScript</h1>
+
+        <div class="box">
+            <p class="highlight">Selamat datang di kampus biru UNPAM</p>
+            <p>Program Studi Sistem Informasi</p>
+
+            <script>
+                // Data diri contoh
+                let namaMantan = "yanuar keren";
+                let umur = 20;
+
+                document.write(
+                    "<div class='result'>" +
+                    "<span class='label'>Nama mantan saya:</span> " + namaMantan + "<br>" +
+                    "<span class='label'>Umur:</span> " + umur +
+                    "</div>"
+                );
+
+                // Kondisi umur
+                if (umur >= 17) {
+                    document.write("<div class='result'>Anda diperbolehkan membuat SIM</div>");
+                } else {
+                    document.write("<div class='result'>Anda belum diperbolehkan membuat SIM</div>");
+                }
+
+                // Ambil kota dari user
+                let tanyaKota = prompt("Masukkan kota kelahiran anda ?", "");
+
+                // Jika user kosongkan input → default ke "tuban"
+                let kota = tanyaKota && tanyaKota.trim() !== "" ? tanyaKota : "tuban";
+
+                document.write("<div class='result'><span class='label'>Kota Kelahiran Anda:</span> " + kota + "</div>");
+            </script>
+
+        </div>
+    </div>
+
+</body>
+</html>

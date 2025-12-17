@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAWA KEREN</title>
+</head>
+<body bgcolor="#C3B1E1">
+    <table width="907" align="center">
+        <tr>
+            <td>
+                <!--benner-->
+                <img src="JAWA KERE.jpg">
+                <!--benner-->
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <!--menu-->
+               <a href="home.html"><em>HOME</a></em> |
+                <a href="gallery.html"><em>GALLERY</a></em> |
+                <a href="form.html"><em>FORM</a></em> | 
+                <a href="about.html">ABOUT</a>
+                <!--menu-->
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <!--content-->
+                <font color="purple">
+                 <h1>Formulir Pendaftaran Masuk Wisata JAWA KEREN</h1>
+                <p>Silakan isi formulir di bawah ini untuk mendaftar masuk ke wisata sejarah Jawa.</p>
+                <form action="submit.php" method="post"> <!-- Ganti action dengan URL tujuan pengiriman data -->
+                    <label for="nama">Nama Lengkap:</label><br>
+                    <input type="text" id="nama" name="nama" required><br><br>
+
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" required><br><br>
+
+                    <label for="telepon">Nomor Telepon:</label><br>
+                    <input type="tel" id="telepon" name="telepon" required><br><br>
+
+                    <label for="tanggal">Tanggal Kunjungan:</label><br>
+                    <input type="date" id="tanggal" name="tanggal" required><br><br>
+
+                    <label for="jumlah">Jumlah Orang:</label><br>
+                    <input type="number" id="jumlah" name="jumlah" min="1" required><br><br>
+
+                    <label for="wisata">Pilih Wisata:</label><br>
+                    <select id="wisata" name="wisata" required>
+                        <option value="">-- Pilih Wisata --</option>
+                        <option value="borobudur">Borobudur</option>
+                        <option value="prambanan">Prambanan</option>
+                        <option value="dieng">Dataran Tinggi Dieng</option>
+                        <option value="majapahit">Situs Majapahit</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select><br><br>
+
+                    <label for="pesan">Pesan Tambahan (Opsional):</label><br>
+                    <textarea id="pesan" name="pesan" rows="4" placeholder="Tuliskan pesan atau permintaan khusus..."></textarea><br><br>
+
+                    <input type="submit" value="Kirim Pendaftaran">
+                </form>
+
+                <h2>Tabel Pembayaran</h2>
+                <p>Berikut adalah ringkasan pembayaran untuk pendaftaran wisata (contoh berdasarkan pilihan wisata dan jumlah orang). Total akan dihitung otomatis setelah pengiriman formulir.</p>
+                <table border="1" width="100%" align="center">
+                    <tr>
+                        <th>Item</th>
+                        <th>Jumlah Orang</th>
+                        <th>Harga per Orang (IDR)</th>
+                        <th>Total (IDR)</th>
+                    </tr>
+                    <tr>
+                        <td>Tiket Masuk Borobudur</td>
+                        <td>2</td>
+                        <td>50,000</td>
+                        <td>100,000</td>
+                    </tr>
+                    <tr>
+                        <td>Tiket Masuk Prambanan</td>
+                        <td>1</td>
+                        <td>40,000</td>
+                        <td>40,000</td>
+                    </tr>
+                    <tr>
+                        <td>Biaya Tambahan (Opsional)</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <th colspan="3">Total Keseluruhan</th>
+                        <th>140,000</th>
+                    </tr>
+                </table>
+                <p><strong>Catatan:</strong> Harga dapat berubah tergantung pada wisata yang dipilih. Pembayaran dapat dilakukan melalui transfer bank atau metode lain yang akan dikonfirmasi setelah pendaftaran.</p></font>
+                <!--content-->
+            </td>
+        </tr>
+        <tr>
+            <td height="100" bgcolor="purple" align="center">
+                <!--footer-->
+                &copy; copyright [YANUAR MUHAMMAD GIFFARI NIM : 251011700037] - 2025
+                <!--footer-->
+            </td>
+        </tr>
+    </table>
+    
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var usia = prompt("masukan usia anda", "");
+        if (usia>=17) {
+            document.write("usia anda "+usia+" diperbolehkan memiliki KTP<br>");
+            document.write("usia anda tergolong dewasa <br>");
+            window.alert("usia anda "+usia+" diperbolehkan memiliki ktp");
+        } else{
+            document.write("usia anda "+usia+" belum diperbolehkan memiliki KTP<br>");
+            document.write("anda masih anak anak");
+            window.alert("usia anda "+usia+" belum diperbolehkan memiliki ktp");
+        }
+
+        if (usia > 65) {
+            document.write("kategori umur : manula<br>");
+        } else if (usia > 50) {
+            document.write("kategori umur : orang tua<br>");
+        } else if (usia > 20) {
+            document.write("kategori umur : dewasa<br>");
+        } else if (usia > 12) {
+            document.write("kategori umur : remaja<br>");
+        } else if (usia > 5) {
+            document.write("kategori umur : anak-anak<br>");
+        } else if (usia > 2) {
+            document.write("kategori umur : balita<br>");
+        }
+        
+    </script>
+</body>
+</html>

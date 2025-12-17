@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sablon Studio — Demo</title>
+  <style>
+    :root{--bg:#f7fafc;--card:#ffffff;--muted:#6b7280;--accent:#0369a1}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:var(--bg);color:#111}
+    .container{max-width:1100px;margin:28px auto;padding:16px}
+    header{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
+    h1{margin:0;font-size:24px}
+    .btn{display:inline-block;padding:8px 12px;border-radius:8px;border:1px solid #e5e7eb;background:var(--card);cursor:pointer}
+    .btn-primary{background:var(--accent);color:#fff;border:none}
+    .grid{display:grid;gap:16px}
+    .products{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+    .card{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+    .mock{height:200px;background:#f1f5f9;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+    .small{font-size:13px;color:var(--muted)}
+    .cart{position:fixed;right:18px;bottom:18px;width:320px;max-height:70vh;overflow:auto;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.12);background:var(--card);padding:12px}
+    .cart h3{margin:0 0 8px 0}
+    .cart-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid #f1f5f9}
+    .footer{margin-top:24px;color:var(--muted);font-size:13px}
+    input[type=file]{display:none}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center}
+    .modal-card{width:95%;max-width:720px;background:var(--card);padding:16px;border-radius:10px}
+    .row{display:flex;gap:12px}
+    @media(max-width:640px){.row{flex-direction:column}.cart{width:92%;left:4%;right:4%}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Sablon Studio</h1>
+      <div>
+        <label class="btn" for="uploadFile">Upload Desain</label>
+        <input id="uploadFile" type="file" accept="image/*" />
+        <button id="btnCheckout" class="btn btn-primary">Checkout (<span id="cartCount">0</span>)</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="grid" style="grid-template-columns:1fr 320px;gap:20px">
+        <div>
+          <div class="card" style="margin-bottom:16px">
+            <h2 style="margin:0 0 6px 0">Buat Kaos Custom — Demo</h2>
+            <p class="small">Upload desain, pilih produk, lalu tambahkan ke keranjang. Ini versi statis (tanpa backend).</p>
+            <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+              <div class="mock" id="previewArea">Mockup Area</div>
+              <div style="flex:1">
+                <div class="small">Preview desain</div>
+                <img id="previewImg" style="max-width:100%;display:none;margin-top:8px;border-radius:6px;" />
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin:6px 0">Produk</h3>
+          <div class="grid products" id="productList"></div>
+        </div>
+
+        <aside>
+          <div class="card">
+            <h3 style="margin-top:0">Instruksi Cepat</h3>
+            <ol class="small">
+              <li>Upload desain (PNG/JPG/SVG)</li>
+              <li>Pilih produk dan spesifikasi</li>
+              <li>Tambahkan ke keranjang</li>
+              <li>Checkout dan isi data pengiriman</li>
+            </ol>
+            <div class="footer">Versi demo — tidak ada penyimpanan server.</div>
+          </div>
+
+          <div style="height:16px"></div>
+
+          <div class="card">
+            <h4 style="margin:0 0 8px 0">Contoh Ukuran & Harga</h4>
+            <div class="small">Kaos Cotton Combed — Rp75.000</div>
+            <div class="small">Hoodie Fleece — Rp150.000</div>
+          </div>
+        </aside>
+      </section>
+
+    </main>
+
+    <footer class="footer">© "Sablon Studio" — Demo. Buat oleh ChatGPT.</footer>
+  </div>
+
+  <!-- Cart Sidebar -->
+  <div class="cart" id="cartBox" aria-hidden="true">
+    <h3>Keranjang</h3>
+    <div id="cartItems"></div>
+    <div style="border-top:1px dashed #eee;padding-top:8px;margin-top:8px;display:flex;justify-content:space-between;align-items:center">
+      <div class="small">Total</div>
+      <div id="cartTotal">Rp0</div>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <button id="btnClear" class="btn">Kosongkan</button>
+      <button id="btnOpenCheckout" class="btn btn-primary">Lanjutkan</button>
+    </div>
+  </div>
+
+  <!-- Modal Checkout -->
+  <div id="modal" class="modal" style="display:none">
+    <div class="modal-card">
+      <h3>Checkout</h3>
+      <div class="row" style="margin-top:12px">
+        <div style="flex:1">
+          <label class="small">Nama</label>
+          <input id="inputName" style="width:100%;padding:8px;border-radius:8px;border:1px solid #e5e7eb;margin-top:6px" />
+
+          <label class="small" style="margin-top:8px;display:block">No HP</label>
+          <input id="inputPhone" style="width:100%;padding:8px;border-radius:8px;border:1px solid #e5e7eb;margin-top:6px" />
+
+          <label class="small" style="margin-top:8px;display:block">Alamat</label>
+          <textarea id="inputAddress" style="width:100%;padding:8px;border-radius:8px;border:1px solid #e5e7eb;margin-top:6px"></textarea>
+
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button id="btnPlace" class="btn btn-primary">Bayar & Pesan (Demo)</button>
+            <button id="btnClose" class="btn">Tutup</button>
+          </div>
+        </div>
+        <div style="width:280px">
+          <h4 style="margin-top:0">Ringkasan</h4>
+          <div id="checkoutSummary" style="max-height:320px;overflow:auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample products
+    const PRODUCTS = [
+      {id:1,name:'Kaos Cotton Combed',price:75000,colors:['Putih','Hitam','Abu'],sizes:['S','M','L','XL']},
+      {id:2,name:'Hoodie Fleece',price:150000,colors:['Hitam','Abu','Biru'],sizes:['M','L','XL']},
+      {id:3,name:'Polo Premium',price:90000,colors:['Putih','Biru'],sizes:['S','M','L']}
+    ];
+
+    const productList = document.getElementById('productList');
+    const previewImg = document.getElementById('previewImg');
+    const previewArea = document.getElementById('previewArea');
+    const uploadFile = document.getElementById('uploadFile');
+    const cartBox = document.getElementById('cartBox');
+    const cartItemsDiv = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const cartCount = document.getElementById('cartCount');
+    const modal = document.getElementById('modal');
+    const checkoutSummary = document.getElementById('checkoutSummary');
+
+    let uploadedDesign = null;
+    let CART = [];
+
+    function formatIDR(num){return 'Rp'+Number(num).toLocaleString('id-ID')}
+
+    function renderProducts(){
+      productList.innerHTML='';
+      PRODUCTS.forEach(p=>{
+        const el = document.createElement('div'); el.className='card';
+        el.innerHTML = `
+          <div style="height:120px;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-radius:6px">Foto Produk</div>
+          <h4 style="margin:8px 0 4px 0">${p.name}</h4>
+          <div class="small">Mulai ${formatIDR(p.price)}</div>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button class="btn" data-id="${p.id}" onclick="openCustomize(${p.id})">Custom</button>
+            <button class="btn btn-primary" data-id="${p.id}" onclick="addToCart(${p.id})">Tambah</button>
+          </div>
+        `;
+        productList.appendChild(el);
+      })
+    }
+
+    function openCustomize(id){
+      const p = PRODUCTS.find(x=>x.id===id);
+      const size = p.sizes[0]; const color = p.colors[0];
+      const qty = 1;
+      // Quick prompt using native prompt (simple demo)
+      const selectedSize = prompt('Pilih ukuran: ' + p.sizes.join(','), size) || size;
+      const selectedColor = prompt('Pilih warna: ' + p.colors.join(','), color) || color;
+      const selectedQty = Number(prompt('Jumlah', qty)) || qty;
+      addToCart(id, selectedSize, selectedColor, selectedQty);
+    }
+
+    function addToCart(productId, size='M', color='Putih', qty=1){
+      const p = PRODUCTS.find(x=>x.id===productId);
+      const item = {id:Date.now()+Math.random(), productId, name:p.name, price:p.price, size, color, qty, design: uploadedDesign};
+      CART.push(item); renderCart();
+    }
+
+    function renderCart(){
+      cartItemsDiv.innerHTML='';
+      let total=0; CART.forEach(it=>{
+        total += it.price * it.qty;
+        const d = document.createElement('div'); d.className='cart-item';
+        d.innerHTML = `
+          <div>
+            <div style="font-weight:600">${it.name} x${it.qty}</div>
+            <div class="small">${it.size} • ${it.color}</div>
+            ${it.design ? '<div style="margin-top:6px"><img src="'+it.design+'" style="max-width:100px;border-radius:6px" /></div>' : ''}
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:600">${formatIDR(it.price*it.qty)}</div>
+            <button class="small" onclick="removeItem('${it.id}')" style="margin-top:8px;background:none;border:none;color:#dc2626;cursor:pointer">Hapus</button>
+          </div>
+        `;
+        cartItemsDiv.appendChild(d);
+      })
+      cartTotalEl.textContent = formatIDR(total);
+      cartCount.textContent = CART.length;
+    }
+
+    function removeItem(id){ CART = CART.filter(i=>i.id!=id); renderCart(); }
+
+    document.getElementById('btnClear').addEventListener('click',()=>{ if(confirm('Kosongkan keranjang?')){ CART=[]; renderCart(); } });
+    document.getElementById('btnOpenCheckout').addEventListener('click',()=> openModal());
+    document.getElementById('btnCheckout').addEventListener('click',()=> openModal());
+
+    function openModal(){
+      if(CART.length===0){ alert('Keranjang kosong'); return; }
+      modal.style.display='flex'; renderCheckoutSummary();
+    }
+    document.getElementById('btnClose').addEventListener('click',()=> modal.style.display='none');
+
+    function renderCheckoutSummary(){
+      checkoutSummary.innerHTML='';
+      CART.forEach(it=>{
+        const row = document.createElement('div'); row.style.marginBottom='8px';
+        row.innerHTML = `<div style="font-weight:600">${it.name} x${it.qty}</div><div class="small">${it.size} • ${it.color}</div>` + (it.design? '<div style="margin-top:6px"><img src="'+it.design+'" style="max-width:100%" /></div>':'');
+        checkoutSummary.appendChild(row);
+      })
+    }
+
+    document.getElementById('btnPlace').addEventListener('click',()=>{
+      const name = document.getElementById('inputName').value.trim();
+      const phone = document.getElementById('inputPhone').value.trim();
+      const addr = document.getElementById('inputAddress').value.trim();
+      if(!name || !phone || !addr){ alert('Isi semua data pengiriman'); return; }
+      // Demo: show order summary, then clear cart
+      alert('Pesanan dibuat (demo).\nNama: '+name+'\nTotal: '+cartTotalEl.textContent);
+      CART=[]; renderCart(); modal.style.display='none';
+    });
+
+    function handleUpload(file){
+      if(!file) return; const reader = new FileReader();
+      reader.onload = function(e){ uploadedDesign = e.target.result; previewImg.src = uploadedDesign; previewImg.style.display='block'; previewArea.innerHTML = '<img src="'+uploadedDesign+'" style="max-width:140px;max-height:180px;border-radius:8px" />' };
+      reader.readAsDataURL(file);
+    }
+
+    uploadFile.addEventListener('change',(e)=> handleUpload(e.target.files[0]));
+
+    // initial render
+    renderProducts(); renderCart();
+  </script>
+</body>
+</html>
